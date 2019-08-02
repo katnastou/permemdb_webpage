@@ -1,0 +1,65 @@
+<% include partials/header %>
+
+<body>
+    <div class="flex-container">
+    <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Blast Search Results</h3>
+            </div>
+            <div class="panel-body">
+                <% var outputiterations = outputBlast.BlastOutput["BlastOutput_iterations"][0].Iteration; %> 
+                <% for (var i=0; i<outputiterations.length; i++){ %>
+                    <% var outputiterations2 = outputBlast.BlastOutput["BlastOutput_iterations"][0].Iteration[i]['Iteration_hits']; %>
+                    <% for (var j=0; j<outputiterations2.length; j++){ %> 
+                        <% var outputiterations3 = outputiterations2[j].Hit; %>
+                        <% for (var k=0; k<outputiterations3.length; k++){ %> 
+                            <% var outputiterations4 = outputiterations3[k]; %>
+                            <% var hit_id = outputiterations4["Hit_id"][0]; %>
+                            <% var hit_num = outputiterations4["Hit_num"][0]; %>
+                            <% var hit_len = outputiterations4["Hit_len"][0]; %>
+                            <p>This is the blast hit_id <%= hit_id %></p>
+                            <p>This is the blast hit_num <%= hit_num %></p>
+                            <p>This is the blast hit_len <%= hit_len %></p>
+                            <% var outputiterations5 = outputiterations4.Hit_hsps[0].Hsp; %>
+                            <% for (var l=0; l<outputiterations5.length; l++){ %>
+                                <% var hsp_score = outputiterations5[l]["Hsp_score"][0]; %>
+                                <% var hsp_evalue = outputiterations5[l]["Hsp_evalue"][0]; %>
+                                <% var hsp_query_from = outputiterations5[l]["Hsp_query-from"][0]; %>
+                                <% var hsp_query_to = outputiterations5[l]["Hsp_query-to"][0]; %>
+                                <% var hsp_hit_from = outputiterations5[l]["Hsp_hit-from"][0]; %>
+                                <% var hsp_hit_to = outputiterations5[l]["Hsp_hit-to"][0]; %>
+                                <% var hsp_identity = outputiterations5[l]["Hsp_identity"][0]; %>
+                                <% var hsp_positive = outputiterations5[l]["Hsp_positive"][0]; %>
+                                <% var hsp_gaps = outputiterations5[l]["Hsp_gaps"][0]; %>
+                                <% var hsp_align_len = outputiterations5[l]["Hsp_align-len"][0]; %>
+                                
+                                <% var hsp_qseq = outputiterations5[l]["Hsp_qseq"][0]; %>
+                                <% var hsp_hseq = outputiterations5[l]["Hsp_hseq"][0]; %>
+                                <% var hsp_midline = outputiterations5[l]["Hsp_midline"][0]; %>
+                                
+                                <p>This is the blast hsp_score <%= hsp_score %></p>
+                                <p>This is the blast hsp_evalue <%= hsp_evalue %></p>
+                                <p>This is the blast hsp_query_from <%= hsp_query_from %></p>
+                                <p>This is the blast hsp_query_to <%= hsp_query_to %></p>
+                                <p>This is the blast hsp_hit_from <%= hsp_hit_from %></p>
+                                <p>This is the blast hsp_hit_to <%= hsp_hit_to %></p>
+                                <p>This is the blast hsp_identity <%= hsp_identity %></p>
+                                <p>This is the blast hsp_positive <%= hsp_positive %></p>
+                                <p>This is the blast hsp_gaps <%= hsp_gaps %></p>
+                                <p>This is the blast hsp_align_len <%= hsp_align_len %></p>
+        
+                                <p>This is the blast hsp_qseq <%= hsp_qseq %></p>
+                                <p>This is the blast hsp_hseq <%= hsp_hseq %></p>
+                                <p>This is the blast hsp_midline <%= hsp_midline %></p>
+                           <% } %>
+                       <% } %>
+                   <% } %>
+                <% } %>                       
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<% include partials/footer %>

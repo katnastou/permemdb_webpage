@@ -1,0 +1,72 @@
+<% include partials/header %>
+
+    <div class="flex-container">
+    <div class="container">
+        <div class="panel panel-primary" id="download_panel" style="width:30%;text-align:center">
+            <div class="panel-heading">
+                <h3 class="panel-title">Download Entire Database</h3>
+            </div>
+            <div class="panel-body">
+                <h4><a href="/assets/permemdb.txt" target="_blank" download>Text</a></h4>
+                <h4><a href="/assets/permemdb.json" target="_blank" download>Json</a></h4>
+                <!--Change links-->
+                <h4><a href="/assets/permemdb.xml" target="_blank" download>XML</a></h4>
+                <h4><a href="/assets/permemdb.fasta" target="_blank" download>FASTA</a></h4>
+            </div>
+        </div>
+		
+		<div class="panel panel-primary" id="download_panel" style="width:50%;text-align:center">
+            <div class="panel-heading">
+                <h3 class="panel-title">Download Lists of UniProt ACs</h3>
+            </div>
+            <div class="panel-body">
+			<h4><a href="/assets/permemdb.list" target="_blank" download>Entire PerMemDB</a></h4>
+			<hr>
+			<h4>Select Organism</h4>
+			<select class="form-control" id="sel1">
+				<% for(var i=0; i < results1.length; i++) { %>
+				   <option value="/assets/organisms/<%= results1[i].ncbi_tax_id %>.list" ><%= results1[i].org_name %></option>
+				<% } %>
+			</select>
+			<br>
+			<input type="button" onclick="window.open(document.getElementById('sel1').value)" value="Download UniProt ACs for selected Organism" class="btn btn-info"/>
+			<hr>
+			<h4>Select Subcellular Location</h4>
+			<select class="form-control" id="sel2">
+				<% for(var i=0; i < results2.length; i++) { %>
+				   <option value="/assets/sublocs/<%= results2[i].subloc_id %>.list" ><%= results2[i].alias %></option>
+				<% } %>
+			</select>
+			<br>
+			<input type="button" onclick="window.open(document.getElementById('sel2').value)" value="Download UniProt ACs for selected Subcellular Location" class="btn btn-info"/>
+			<hr>
+			<h4><a href="/assets/3d.list" target="_blank" download>Proteins with 3D structures</a></h4>					
+            </div>
+        </div>
+		
+        <div class="panel panel-info" id="publication_panel" style="width:70%">
+            <div class="panel-heading">
+                <h3 class="panel-title">When using this database please cite:</h3>
+            </div>
+            <div class="panel-body">
+                <p>Katerina C. Nastou, Georgios N. Tsaousis and Vassiliki A. Iconomidou</p>
+                <p><strong>PerMemDB: a database for eukaryotic peripheral membrane proteins</strong></p>
+                <p><em>Preprint available <a href="https://doi.org/10.1101/531541" target="_blank">HERE</a></em></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+	$("#sel1").html($("#sel1 option").sort(function (a, b) {
+		return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+	}))
+	$("#sel1").prepend("<option value='' selected='selected'></option>");
+	
+	$("#sel2").html($("#sel2 option").sort(function (a, b) {
+		return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+	}))
+	$("#sel2").prepend("<option value='' selected='selected'></option>");
+</script>
+
+<% include partials/footer %>

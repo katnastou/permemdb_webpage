@@ -1,0 +1,82 @@
+<% include partials/header %>
+    <div class="flex-container">
+    <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Description</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                The majority of all proteins in cells interact with membranes either permanently or temporarily.  
+                These include transmembrane proteins – which bypass the lipid bilayer – or other proteins 
+                and peptides that form transient complexes with membrane proteins and/or lipids, 
+                via non-covalent interactions.  The latter are called peripheral membrane proteins 
+                and are of outmost importance, due to numerous cellular functions in which they participate.  
+                </p>
+                <p>
+                PerMemDB is currently the most complete and comprehensive repository of data for peripheral 
+                membrane proteins from all reference eukaryotic proteomes deposited in UniProt or predicted 
+                with the use of MBPpred, an algorithm developed in our lab that specializes in the detection 
+                of membrane binding proteins.  The database contains <strong><%= count %></strong> peripheral membrane proteins 
+                from <strong><%= organisms %></strong> organisms.  All entries have cross-references 
+                to other databases, literature references and annotation regarding their interactions 
+                with other proteins.  Moreover, entries collected with the use of MBPpred have additional information, 
+                regarding their characteristic domains that allow them to interact with membranes.  
+                </p>
+                <p>
+                Through the web interface of PerMemDB, users can browse the contents of the database, 
+                submit advanced text searches and BLAST queries against the protein sequences deposited in PerMemDB.  
+                We expect this repository to serve as a source of information for the deeper understanding 
+                of the role of peripheral membrane proteins in cells, in addition to proteome-wide analyses.
+                </p>
+            </div>
+        </div>
+        <div class="panel panel-success" style="width:50%">
+            <div class="panel-heading">
+                <h3 class="panel-title">Supplementary Information</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+					<strong>Supplementary Information is available <a href="/assets/Nastou_Supplement.xlsx" target="_blank" style="color:red">HERE</a></strong>
+                </p>
+            </div>
+        </div>
+        <div class="panel panel-default" style="width:30%">
+            <div class="panel-heading">
+                <h3 class="panel-title">Statistics</h3>
+            </div>
+            <div class="panel-body" >
+                <table id="example3" class="table table-striped table-bordered dt-responsive">
+                    <tr>
+                        <th>Total Number of Proteins:</th>
+                        <td><strong><%= count %></strong></td>
+                    </tr>
+                    <tr>
+                        <th>Total Number of Proteomes:</th>
+                        <td><strong><%= organisms %></strong></td>
+                    </tr>
+                    <tr>
+                        <th>Last Update:</th>
+                        <td><strong>Mar-2019</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Version:</th>
+                        <td><strong>v1.3</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-info" style="width:70%">
+            <div class="panel-heading">
+                <h3 class="panel-title">Publication</h3>
+            </div>
+            <div class="panel-body">
+                <p>Katerina C. Nastou, Georgios N. Tsaousis and Vassiliki A. Iconomidou</p>
+                <p><strong>PerMemDB: a database for eukaryotic peripheral membrane proteins</strong></p>
+                <p><em>Preprint available <a href="https://doi.org/10.1101/531541" target="_blank">HERE</a></em></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer %>

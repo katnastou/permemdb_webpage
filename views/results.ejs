@@ -1,0 +1,74 @@
+<% include partials/header %>
+
+<body>
+    <div class="flex-container">
+    <div class="container">
+          <div class="card mb-3">
+            <div class="card-header">
+              <div class="panel panel-default">
+              <div class="panel-heading">
+                <i class="fa fa-table"></i> Search Results
+              </div>
+              </div>
+              </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="99%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Protein Name</th>
+                      <th>UniProt AC</th>
+                      <th>Status</th>
+                      <th>Source</th>
+                      <th>Organism</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>ID</th>
+                      <th>Protein Name</th>
+                      <th>UniProt AC</th>
+                      <th>Status</th>
+                      <th>Source</th>
+                      <th>Organism</th>
+                      <th></th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <% for(var i=0; i<results.length; i++){ %>
+                        <tr>
+                          <td><%= results[i].protein_id %></td>
+                          <td><%= results[i].protein_names %></td>
+                          <td><%= results[i].ac %></td>
+                          <td><%= results[i].status %></td>
+                          
+                          <% if(results[i].source_type=="UniProtKB"){ %>
+                            <td><%= results[i].source_type %></td>
+                          <% } if(results[i].source_type=="MBPpred") {%>
+                            <td><%= results[i].source_type %></td>
+                          <% } if(results[i].source_type=="TM_interactors") {%>
+                            <td>Transmembrane Interactor</td>
+                          <% } if(results[i].source_type=="UniProtKB_MBPpred") {%>
+                            <td>UniProtKB & MBPpred</td>
+                          <% } if(results[i].source_type=="UniProtKB_TMint") {%>
+                            <td>UniProtKB & Transmembrane Interactor</td>
+                          <% } if(results[i].source_type=="MBPpred_TMint") {%>
+                            <td>MBPpred & Transmembrane Interactor</td>
+                          <% } if(results[i].source_type=="UniProtKB_MBPpred_TMint") {%>
+                            <td>UniProtKB & MBPpred & Transmembrane Interactor</td>
+                          <% } %>
+                          <td><%= results[i].name %></td>
+                          <td><a class="btn btn-info" href="/permemdb/<%= results[i].protein_id %>">Show</a></td>
+                        </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+</div>
+</body>
+
+<% include partials/footer %>

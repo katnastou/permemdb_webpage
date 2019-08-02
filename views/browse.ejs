@@ -1,0 +1,55 @@
+<% include partials/header %>
+
+<body>
+    <div class="flex-container">
+    <div class="container">
+          <div class="card mb-3">
+            <div class="card-header">
+              <div class="panel panel-default">
+              <div class="panel-heading">
+                <i class="fa fa-table"></i> Browse Data By Organism
+                </div>
+                <div class="panel-body">You can use the search button at the top right of the table to further filter your results &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-down"></i></div>
+              </div>
+              </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="99%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <!--<th>Organism ID</th>-->
+                      <th>NCBI Tax ID</th>
+                      <th>Organism</th>
+                      <th>Peripheral Proteins</th>
+                      <th>Show Entries</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for(var i=0; i<results.length; i++){ %>
+                        <tr>
+                          <td><a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=<%= results[i].ncbi_tax_id %>"><%= results[i].ncbi_tax_id %></a></td>
+                          <td><em><%= results[i].org_name %></em></td>
+                          <td><%= results[i].org_count %></td>
+                          <td>
+                             <form action="/permemdb/browse" method="POST" >
+                               <div class="form-group">
+                                  <select class="form-control" id="sel2" name="selectpicker2" style=" position:absolute;visibility: hidden;width:50%; margin:auto">
+                                    <option value="<%= results[i].prorg_id %>" ><%= results[i].prorg_id %></option>
+                                  </select>
+                                  <button type="submit" class="btn btn-success">Show selected entries</button>
+                                </div>
+                              </form>
+                              <!--<button id="submit_button" class="btn btn-info" ><div class="form-group">Show</div></button>-->
+                            
+                          </td>
+                        </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+</div>
+</body>
+
+<% include partials/footer %>

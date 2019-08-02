@@ -1,0 +1,607 @@
+<% include partials/header %>
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+        var dataTable2 = $('#example2').DataTable();;
+        dataTable2.responsive.recalc();
+    } );
+     
+
+    var biogrid ="";
+    var drugbank = "";
+    var embl = "";
+    var hgnc = "";
+    var intact = "";
+    var kegg = "";
+    var mim = "";
+    var orphanet = "";
+    var pdb = "";
+    var pfam = "";
+    var prosite = "";
+    var reactome = "";
+	var stringdb = "";
+	var hpa = "";
+    </script>
+<body>
+    <div class="flex-container">
+    <div class="container">
+      <div class="col-md-12 col-lg-12 col-sm-12">
+            <div class="panel panel-primary">
+                  <div class="panel-body">
+                    <div class="btn-group-justified btn-block">
+                      <!--Files have to be in folder public in order for them to be downloadable-->
+                      <a href="/assets/<%= protein_id %>.txt" target="_blank"  class="button btn btn-info" role="button" id="text_download">Download Text</a>
+                      <a href="/assets/<%= protein_id %>.json" target="_blank"  class="button btn btn-info" role="button" id="json_download">Download Json</a>
+                      <a href="/assets/<%= protein_id %>.xml" target="_blank"  class="button btn btn-info" role="button" id="xml_download">Download XML</a>
+					  <a href="/assets/fastas/<%= protein_id %>.fas" target="_blank"  class="button btn btn-info" role="button" id="fasta_download">Download FASTA</a>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-8 col-sm-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Protein Information</div>
+                <div class="panel-body" >
+                    <table id="example" class="table table-striped table-bordered dt-responsive" style="width:100%">
+                    <tr>
+                        <th>Protein Names:</th>
+                        <td><%= protein_names %></td>
+                      </tr>
+                      <tr>
+                        <th>Gene name:</th>
+                          <% if(genename!=""){ %>
+                            <td><%= genename %></td>
+                          <% } else {%>
+                             <td>No information available</td>
+                          <% } %>
+
+                      </tr>
+                      <tr>
+                        <th>Organism:</th>
+                        <td><em><%= name %></em></td>
+                      </tr>
+                      <tr>
+                        <th>Taxonomy (NCBI):</th>
+                        <td><%= ncbi_tax_id %></td>
+                      </tr>
+                      
+                      <tr>
+                        <th>Sequence Length:</th>
+                        <td><%= seq_length %></td>
+                      </tr>
+                      <tr>
+                        <th>Status:</th>
+                        <td><%= status %></td>
+                      </tr>
+                      <tr>
+                        <th>Source Type:</th>
+                        <% if(source_type=="UniProtKB"){ %>
+                            <td><%= source_type %></td>
+                          <% } if(source_type=="MBPpred") {%>
+                            <td>
+                                <%= source_type %> 
+                                <button class="button btn btn-success btn-xs" id="myBtn2"  >Show More</button>
+                                <div id="myModal2" class="modal">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <span class="close2">&times;</span>
+                                    <h4>Information from MBPpred</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div class="table-responsive">
+                                        <table id="example2" class="table table-striped table-bordered dt-responsive" style="width:100%">
+                                            
+                                              <% for (var j=0;j<domains.length;j++){%>
+                                              <tr>
+                                                <th><%= domains[j] %>: </th>
+                                                <td>
+                                                  <%= domain_starts[j] %>-<%= domain_ends[j] %> (score:<%= domain_scores[j] %>)
+                                                </td>
+                                                <td>
+                                                  <!--spans have to go in online to show in one line on page-->
+                                                  <span class="seqspan"><%= sequence.substring(0, domain_starts[j])%></span><span class="seqspan" style="color:red"><%= sequence.substring(domain_starts[j], domain_ends[j]+1)%></span><span class="seqspan"><%= sequence.substring(domain_ends[j]+1)%></span>
+                                                </td>
+                                                </tr>
+                                                <% } %>
+                                            
+                                        </table>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                          <% } if(source_type=="TM_interactors") {%>
+                            <td>Transmembrane Interactor -- Transmembrane Protein(s): 
+                               <% for (var k=0;k<tm_interactor_acs.length;k++){%>
+                                <a class="button btn btn-info btn-xs" href="https://www.uniprot.org/uniprot/<%= tm_interactor_acs[k] %>" target="_blank"><%= tm_interactor_acs[k] %></a>
+                               <% }%>
+                             </td>
+                          <% } if(source_type=="UniProtKB_MBPpred") {%>
+                            <td>UniProtKB <br> MBPpred
+                              <button class="button btn btn-success btn-xs" id="myBtn2"  >Show More</button>
+                                <div id="myModal2" class="modal">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <span class="close2">&times;</span>
+                                    <h4>Information from MBPpred</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div class="table-responsive">
+                                        <table id="example2" class="table table-striped table-bordered dt-responsive" style="width:100%">
+                                              <% for (var j=0;j<domains.length;j++){%>
+                                              <tr>
+                                                <th><%= domains[j] %>: </th>
+                                                <td>
+                                                  <%= domain_starts[j] %>-<%= domain_ends[j] %> (score:<%= domain_scores[j] %>)
+                                                </td>
+                                                <td>
+                                                  <!--spans have to go inline to show in one line on page-->
+                                                  <span class="seqspan"><%= sequence.substring(0, domain_starts[j])%></span><span class="seqspan" style="color:red"><%= sequence.substring(domain_starts[j], domain_ends[j]+1)%></span><span class="seqspan"><%= sequence.substring(domain_ends[j]+1)%></span>
+                                                </td>
+                                                </tr>
+                                                <% } %>
+                                        </table>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            
+                            </td>
+                          <% } if(source_type=="UniProtKB_TMint") {%>
+                            <td>UniProtKB <br> 
+                            Transmembrane Interactor -- Transmembrane Protein(s): 
+                               <% for (var k=0;k<tm_interactor_acs.length;k++){%>
+                                <a class="button btn btn-info btn-xs" href="https://www.uniprot.org/uniprot/<%= tm_interactor_acs[k] %>" target="_blank"><%= tm_interactor_acs[k] %></a>
+                               <% }%></td>
+                          <% } if(source_type=="MBPpred_TMint") {%>
+                            <td>MBPpred 
+                                <button class="button btn btn-success btn-xs" id="myBtn2"  >Show More</button>
+                                <div id="myModal2" class="modal">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <span class="close2">&times;</span>
+                                    <h4>Information from MBPpred</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div class="table-responsive">
+                                        <table id="example2" class="table table-striped table-bordered dt-responsive" style="width:100%">
+                                              <% for (var j=0;j<domains.length;j++){%>
+                                              <tr>
+                                                <th><%= domains[j] %>: </th>
+                                                <td>
+                                                  <%= domain_starts[j] %>-<%= domain_ends[j] %> (score:<%= domain_scores[j] %>)
+                                                </td>
+                                                <td>
+                                                  <!--spans have to go in online to show in one line on page-->
+                                                  <span class="seqspan"><%= sequence.substring(0, domain_starts[j])%></span><span class="seqspan" style="color:red"><%= sequence.substring(domain_starts[j], domain_ends[j]+1)%></span><span class="seqspan"><%= sequence.substring(domain_ends[j]+1)%></span>
+                                                </td>
+                                                </tr>
+                                                <% } %>
+                                        </table>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <br> Transmembrane Interactor -- Transmembrane Protein(s): 
+                               <% for (var k=0;k<tm_interactor_acs.length;k++){%>
+                                <a class="button btn btn-info btn-xs" href="https://www.uniprot.org/uniprot/<%= tm_interactor_acs[k] %>" target="_blank"><%= tm_interactor_acs[k] %></a>
+                               <% }%>
+                            </td>
+                          <% } if(source_type=="UniProtKB_MBPpred_TMint") {%>
+                            <td>UniProtKB <br> MBPpred 
+                                <button class="button btn btn-success btn-xs" id="myBtn2"  >Show More</button>
+                                <div id="myModal2" class="modal">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <span class="close2">&times;</span>
+                                    <h4>Information from MBPpred</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div class="table-responsive">
+                                        <table id="example2" class="table table-striped table-bordered dt-responsive" style="width:100%">
+                                              <% for (var j=0;j<domains.length;j++){%>
+                                              <tr>
+                                                <th><%= domains[j] %>: </th>
+                                                <td>
+                                                  <%= domain_starts[j] %>-<%= domain_ends[j] %> (score:<%= domain_scores[j] %>)
+                                                </td>
+                                                <td>
+                                                  <!--spans have to go in online to show in one line on page-->
+                                                  <span class="seqspan"><%= sequence.substring(0, domain_starts[j])%></span><span class="seqspan" style="color:red"><%= sequence.substring(domain_starts[j], domain_ends[j]+1)%></span><span class="seqspan"><%= sequence.substring(domain_ends[j]+1)%></span>
+                                                </td>
+                                                </tr>
+                                                <% } %>
+                                        </table>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div> 
+                              <br> Transmembrane Interactor -- Transmembrane Protein(s): 
+                               <% for (var k=0;k<tm_interactor_acs.length;k++){%>
+                                <a class="button btn btn-info btn-xs" href="https://www.uniprot.org/uniprot/<%= tm_interactor_acs[k] %>" target="_blank"><%= tm_interactor_acs[k] %></a>
+                               <% }%>
+                            </td>
+                          <% } %>
+                      </tr>
+                      <tr>
+                        <th>UniProt AC:</th>
+                        <td><%= ac %></td>
+                      </tr>
+                      <tr>
+                        <th>Present on Lipid Raft (score):</th>
+                        <% if(confidence!=null){ %>
+                          <td><a href="http://raftprot.org/uniprot/<%= ac %>" target="_blank">Yes</a> (<%= confidence %>)</td>
+                        <% } else {%>
+                           <td>No information available</td>
+                        <% } %>
+                      </tr>
+                      <tr>
+                        <th>Subcellular location (COMPARTMENTS):</th>
+                        <% if(compartmentlink!=null){ %>
+                          <td><a href="<%= compartmentlink %>" target="_blank"><%= ac %></a></td>
+                        <% } else {%>
+                           <td>No information available</td>
+                        <% } %>
+                      </tr>
+                      <tr>
+                        <th>Additional Information:</th>
+                        <td>
+                            <button id="myBtn" class="button btn btn-primary">Show</button>
+                            <div id="myModal" class="modal">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <span class="close">&times;</span>
+                                    <h4>Additional Information</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div class="table-responsive">
+                                        <table id="example2" class="table table-striped table-bordered dt-responsive" style="width:100%">
+                                            <tr>
+                                                <th>Sequence:</th>
+                                                <td><%= sequence %></td>
+                                            </tr>
+                                            <tr>
+                                              <th>Protein Function:</th>
+                                              <% if(pr_function!=""){ %>
+                                                <td><%= pr_function %></td>
+                                              <% } else {%>
+                                                 <td>No information available</td>
+                                              <% } %>
+                                            </tr>
+                                            <tr>
+                                              <th>Tissue Specificity:</th>
+                                              <% if(tissue_specificity!=""){ %>
+                                                <td><%= tissue_specificity %></td>
+                                              <% } else {%>
+                                                 <td>No information available</td>
+                                              <% } %>
+                                            </tr> 
+                                            <tr>
+                                              <th>Subcellular Location:</th>
+                                              <% if(subcellular_location!=""){ %>
+                                                <td><%= subcellular_location %></td>
+                                              <% } else {%>
+                                                 <td>No information available</td>
+                                              <% } %>
+                                            </tr>
+                                        </table> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                      </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <div class="panel panel-primary">
+                <%if (node_ids.length>0) {%>
+                  <div class="panel-heading">Interaction Network</div>
+                  <div id="cy" class="panel-body">
+                  </div>
+                  <div class="panel-footer"><em>Right click on Protein Nodes to go to UniProt.</em></div>
+                <% } else { %>
+                  <div class="panel-heading">Interaction Network</div>
+                  <!--<div id="cy" class="panel-body">-->
+                  <!--</div>-->
+                  <div class="panel-footer">No Interaction Network available for this protein</div>                
+                <% } %>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Cross-References</div>
+                <div class="panel-body" >
+                    <table id="example3" class="table table-striped table-bordered dt-responsive">
+                        <!--Check if it needs AC or Database ID-->
+                        <thead></thead>
+                      <tbody>
+                      <tr>
+                        <th>BioGrid:</th>
+                        <td id="biogrid"> </td>
+                      </tr>
+                      <tr>
+                        <th>DrugBank:</th>
+                        <td id="drugbank"> </td>
+                      </tr>
+                      <tr>
+                        <th>EMBL:</th>
+                        <td id="embl"> </td>
+                      </tr>
+                      <tr>
+                        <th>HGNC:</th>
+                        <td id="hgnc"> </td>
+                      </tr>
+                      <tr>
+                        <th>IntAct:</th>
+                        <td id="intact"> </td>
+                      </tr>
+                      <tr>
+                        <th>KEGG:</th>
+                        <td id="kegg"> </td>
+                      </tr>
+                      <tr>
+                        <th>OMIM:</th>
+                        <td id="mim"> </td>
+                      </tr>
+                      <tr>
+                        <th>Orphanet:</th>
+                        <td id="orphanet"> </td>
+                      </tr>
+                      <tr>
+                        <th>PDB:</th>
+                        <td id="pdb"> </td>
+                      </tr>
+                      <tr>
+                        <th>Pfam:</th>
+                        <td id="pfam"> </td>
+                      </tr>
+                      <tr>
+                        <th>PROSITE:</th>
+                        <td id="prosite"> </td>
+                      </tr>
+                      <tr>
+                        <th>Reactome:</th>
+                        <td id="reactome"> </td>
+                      </tr>
+                      <tr>
+                        <th>STRING:</th>
+                        <td id="stringdb"> </td>
+                      </tr>
+                      <tr>
+                        <th>Human Protein Atlas:</th>
+                        <td id="hpa"> </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   
+<!--Code for Cytoscape Network-->
+<script>
+  var nodes_input =[]; // outside for loop, I want to assign only once
+  var targets_input =[];
+  var sources_input =[];
+  var types_input =[];
+  var i=0;
+  var j=0;
+</script>
+
+<% for(i=0;i<node_ids.length;i++){ %>            
+  <script>
+    nodes_input.push('<%=node_ids[i]%>');
+    //console.log(<%=node_ids[i]%>);
+  </script>
+<% } %>
+
+<% for(j=0;j<targets.length;j++){ %>            
+  <script>
+    targets_input.push('<%=targets[j]%>'); 
+    sources_input.push('<%=sources[j]%>'); 
+    types_input.push('<%=intTypes[j]%>');
+  </script>
+<% } %>
+
+<script>
+  cy = cytoscape({
+    container: document.getElementById('cy'),
+    style: [
+        {
+            selector: 'node',
+            style: {
+                shape: 'hexagon',
+                'background-color': 'data(myColor)',
+                label: 'data(id)'
+            }
+        }],
+    layout: {
+      name: 'grid'
+    }
+  });
+    for(var k=0; k< targets_input.length;k++){
+      //console.log(targets_input[k]);
+      cy.add({ data: { id: targets_input[k], myColor: '#43cff9'}});
+    }
+    for(var k=0; k< sources_input.length;k++){
+      //console.log(sources_input[k]);
+      cy.add({ data: { id: sources_input[k], myColor: '#205586'}});
+    }
+    
+cy.layout({
+    name: 'circle'
+}).run();
+
+</script> 
+
+
+<script>
+    for(var l=0; l< types_input.length;l++){
+        cy.add({
+        data: {
+            intType: types_input[l],
+            source: sources_input[l],
+            target: targets_input[l] 
+            }
+        });
+    }
+ </script> 
+
+<script>
+//do things on left mouse click
+cy.on('tap', 'node', function(evt){
+  var node = evt.target;
+  //color blue edges connected to selected node
+  evt.target.connectedEdges().animate({
+    style: { lineColor: 'blue' }
+  });
+  //console.log( 'tapped ' + node.id() );
+});
+//do things on rigth mouse click
+cy.on('cxttap', 'node', function(evt){
+  var node = evt.target;
+  //console.log( 'tapped ' + node.id() );
+  //go to uniprot page of interactor
+  window.open(
+    'https://www.uniprot.org/uniprot/'+node.id(),
+    '_blank' // <- This is what makes it open in a new window.
+  );
+  //location.href='http://www.uniprot.org/uniprot/'+node.id();
+});
+
+    // window.addEventListener("beforeunload", function(e){
+    //   cy.elements().remove();
+
+    //   console.log("geia");
+    //   }, false);
+         
+    // window.onbeforeunload = function(){
+    //   console.log("geia");
+    //   return  "Are you sure want to LOGOUT the session ?";
+    // };
+      // window.onbeforeunload = function(e) {
+      //   var dialogText = 'Dialog text here';
+      //   //e.returnValue = dialogText;
+      //   console.log(dialogText);
+      // };
+//cy.elements().remove;
+</script>
+<!--Create cross references-->
+<% for (var i=0; i<weblink.length; i++){%>
+<% console.log(weblink.length)%>
+  <% if ( abbreviation[i] == 'BioGrid') {%>
+    <script>biogrid =biogrid.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");</script>
+  <% } %>
+  <% if ( abbreviation[i] == 'DrugBank') {%>
+    <script>drugbank =drugbank.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");</script>
+  <% } %>
+  <% if ( abbreviation[i] == 'EMBL') {%>
+    <script>embl =embl.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");</script>
+  <% } %>
+  <% if ( abbreviation[i] == 'HGNC') {%>
+    <script>hgnc =hgnc.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");</script>
+  <% } %>
+  <% if ( abbreviation[i] == 'IntAct') {%>
+    <script>intact =intact.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");</script>
+  <% } %>
+    <% if ( abbreviation[i] == 'KEGG') {%>
+    <script>kegg =kegg.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");</script>
+  <% } %>
+    <% if ( abbreviation[i] == 'MIM') {%>
+    <script>mim =mim.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");</script>
+  <% } %>
+    <% if ( abbreviation[i] == 'Orphanet') {%>
+    <script>orphanet =orphanet.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");</script>
+  <% } %>
+    <% if ( abbreviation[i] == 'PDB') {%>
+    <script>pdb =pdb.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");</script>
+  <% } %>
+    <% if ( abbreviation[i] == 'Pfam') {%>
+    <script>
+      pfam =pfam.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");
+    </script>
+  <% } %>
+  <% if ( abbreviation[i] == 'PROSITE') {%>
+    <script>
+      prosite =prosite.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");
+    </script>
+  <% } %>
+  <% if ( abbreviation[i] == 'Reactome') {%>
+    <script>
+      reactome =reactome.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");
+    </script>
+  <% } %>
+  <% if ( abbreviation[i] == 'STRING') {%>
+    <script>
+      stringdb =stringdb.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");
+    </script>
+  <% } %>
+  <% if ( abbreviation[i] == 'HPA') {%>
+    <script>
+      hpa =hpa.concat("<a href='<%= weblink[i] %><%= datab_id[i] %>'><%= datab_id[i] %></a> ");
+    </script>
+  <% } %>
+<% } %>
+<script>
+window.onload = function(){
+    //var str = "test";
+    if(biogrid != "") {document.getElementById("biogrid").innerHTML = biogrid;}
+    if(biogrid == "") {document.getElementById("biogrid").innerHTML = "No cross references";}
+    if(drugbank != "") {document.getElementById("drugbank").innerHTML = drugbank;}
+    if(drugbank == "") {document.getElementById("drugbank").innerHTML = "No cross references";}
+    if(embl != "") {document.getElementById("embl").innerHTML = embl;}
+    if(embl == "") {document.getElementById("embl").innerHTML = "No cross references";}
+    if(hgnc != "") {document.getElementById("hgnc").innerHTML = hgnc;}
+    if(hgnc == "") {document.getElementById("hgnc").innerHTML = "No cross references";}
+    if(intact != "") {document.getElementById("intact").innerHTML = intact;}
+    if(intact == "") {document.getElementById("intact").innerHTML = "No cross references";}
+    if(kegg != "") {document.getElementById("kegg").innerHTML = kegg;}
+    if(kegg == "") {document.getElementById("kegg").innerHTML = "No cross references";}
+    if(mim != "") {document.getElementById("mim").innerHTML = mim;}
+    if(mim == "") {document.getElementById("mim").innerHTML = "No cross references";}
+    if(orphanet != "") {document.getElementById("orphanet").innerHTML = orphanet;}
+    if(orphanet == "") {document.getElementById("orphanet").innerHTML = "No cross references";}
+    if(pdb != "") {document.getElementById("pdb").innerHTML = pdb;}
+    if(pdb == "") {document.getElementById("pdb").innerHTML = "No cross references";}
+    if(prosite != "") {document.getElementById("prosite").innerHTML = prosite;}
+    if(prosite == "") {document.getElementById("prosite").innerHTML = "No cross references";}
+    if(pfam != "") {document.getElementById("pfam").innerHTML = pfam;}
+    if(pfam == "") {document.getElementById("pfam").innerHTML = "No cross references";}
+    if(reactome != "") {document.getElementById("reactome").innerHTML = reactome;}
+    if(reactome == "") {document.getElementById("reactome").innerHTML = "No cross references";}
+    if(stringdb != "") {document.getElementById("stringdb").innerHTML = stringdb;}
+    if(stringdb == "") {document.getElementById("stringdb").innerHTML = "No cross references";}
+    if(hpa != "") {document.getElementById("hpa").innerHTML = hpa;}
+    if(hpa == "") {document.getElementById("hpa").innerHTML = "No cross references";}
+}
+</script>
+
+<script>
+ var modalBtns = [...document.querySelectorAll(".button")];
+modalBtns.forEach(function(btn){
+  btn.onclick = function() {
+    var modal = btn.getAttribute('data-modal');
+    document.getElementById(modal).style.display = "block";
+  }
+});
+
+var closeBtns = [...document.querySelectorAll(".close")];
+closeBtns.forEach(function(btn){
+  btn.onclick = function() {
+    var modal = btn.closest('.modal');
+    modal.style.display = "none";
+  }
+});
+
+window.onclick = function(event) {
+  if (event.target.className === "modal") {
+    event.target.style.display = "none";
+  }
+}
+</script>
+
+<% include partials/footer %>

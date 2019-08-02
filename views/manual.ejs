@@ -1,0 +1,212 @@
+<% include partials/header %>
+
+<div class="flex-container">
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-body" >
+        <div class="col-md-12 col-lg-12 col-sm-12">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Home Page</h3>
+            </div>
+            <div class="panel-body">
+            In order to visit PerMemDB, the user should enter the following address: 
+            <a href="http://bioinformatics.biol.uoa.gr/permemdb/" target="_blank">http://bioinformatics.biol.uoa.gr/permemdb/</a>. 
+            The page loaded (see below) contains general information about the database and some statistics. 
+            <img src="/manual/manual1.png" alt="Home Page Screenshot" class="manualimg">
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Search Page</h3>
+            </div>
+            <div class="panel-body">
+            In order to search database information, user should press the search button. A form appears with multiple options.  
+            <img src="/manual/manual2.png" alt="Search Page Screenshot" class="manualimg">
+            The choices are:
+            <ul>
+              <li>Search by Peripheral Membrane Protein Name</li>
+              <li>Search by Source of Data.The choices are:</li>
+                <ul>
+                  <li>UniProtKB</li>
+                  <li>MBPpred</li>
+                  <li>Transmembrane Interactors</li>
+                </ul>
+               <li>Search Proteins based on Organism NCBI Taxonomic Identifier or Organism Name</li>
+              <li>Search Proteins based on Gene Name</li>
+              <li>Search Proteins based on Uniprot Accession or Uniprot Identifier</li>
+              <li>Search Proteins based on Protein Status (reviewed or unreviewed)</li>
+            </ul>
+            <hr>
+            When a user selects a specific source of data, all entries will be shown, and when the sources 
+            are more than one (e.g. Transmembrane Interactor and MBPpred), the result table will list all sources. 
+            <img src="/manual/manual2a.png" alt="Search Page Screenshot 2a" class="manualimg">
+            <hr>
+            The search, based on protein name, organism name and gene name does not require specific words. 
+            For example if a user enters the words 'coagulation factor' in the protein search field 
+            
+            <img src="/manual/manual3.png" alt="Search Page Screenshot 2" class="manualimg">
+            the result is all proteins whose name contains the words 'coagulation factor'.
+            <img src="/manual/manual4.png" alt="Search Page Screenshot 3" class="manualimg">
+            <hr>
+            All searches can be combined with logical operators (AND/OR), in order to make the search result as specific as possible.
+            <br>
+            For example if we make the following combined search:
+            
+            <img src="/manual/manual5.png" alt="Search Page Screenshot 4" class="manualimg">
+            We get only two proteins with the specific characteristics.
+            <img src="/manual/manual6.png" alt="Search Page Screenshot 5" class="manualimg">
+            </div>
+          </div>
+          
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Browse</h3>
+            </div>
+            <div class="panel-body">
+            User can browse data by specific organism by pressing the browse button. 
+            <img src="/manual/manual7.png" alt="Browse Page Screenshot" class="manualimg">
+            <hr>
+            At first all entries appear. Each page shows 10 entries by default but this can 
+            be altered from the dropdown menu at the top left corner of the table to 25, 50 or all entries. 
+            <img src="/manual/manual8a.png" alt="Browse Page Screenshot 2" class="manualimg">
+            <hr>
+            Moreover, users can perform non-specific searches using the search option at the top right corner of the data table.
+            
+            For example if the user searches for 'mouse' on the search field, all organisms with the word 'mouse' in their name 
+            will be shown 
+            <img src="/manual/manual8.png" alt="Browse Page Screenshot 3" class="manualimg">
+            If a user presses <em>Show Selected Entries</em> all proteins from the selected organism are shown.
+            <img src="/manual/manual9.png" alt="Browse Page Screenshot 4" class="manualimg">
+            Through browsing the database or after a search is submitted, a list of proteins appears, 
+            as the one shown above. It contains the Protein Name, UniProt Accession, Status, Source of data and Organism.
+            </div>
+          </div>
+          
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Entry</h3>
+            </div>
+            <div class="panel-body">
+             When the user presses the Show button they are redirected to the Entry page. 
+             The Entry page contains information about the protein as explained below. 
+             Moreover Cytoscape JS is integrated to visualize the relationship between
+             peripheral proteins and their interactors.
+            <img src="/manual/manual11.png" alt="Entry Page Screenshot" class="manualimg">
+            More specifically:
+            <ul>
+              <li>
+              In the top of the page the user can find four buttons. 
+              <em>Download Text</em>, <em>Download Json</em>, <em>Download XML</em> and <em>Download FASTA</em>. 
+              By pressing these buttons the user can download entry information in text, Json, XML or FASTA format respectively.
+              <img src="/manual/manual11a.png" alt="Entry Page Screenshot" class="manualimg">
+              <li>The basic protein information available is:
+              <ul>
+                <li>Protein Name</li>
+                <li>Gene Name</li>
+                <li>Organism</li>
+                <li>NCBI Taxonomic ID</li>
+                <li>Sequence Length</li>
+                <li>Status</li>
+                <li>Source Type(s)</li>
+                <li>UniProt AC</li>
+                <li>Presence on Lipid Raft (Data from <a href="https://www.ncbi.nlm.nih.gov/m/pubmed/25392410/" target="_blank">RaftProt</a>)</li>
+                <li>Subcellular Localization (Data from <a href="https://doi.org/10.1093/database/bau012" target="_blank">COMPARTMENTS</a>)</li>
+              </ul>
+              <img src="/manual/manual11c.png" alt="Entry Page Screenshot" class="manualimg"  style="width:50%">
+              <li>Additional information for the protein's <em>sequence</em>, <em>function</em>, <em>tissue specificity</em> and <em>subcellular location</em> can be found when a user presses the blue show button</li>
+              <img src="/manual/manual11b.png" alt="Entry Page Screenshot" class="manualimg">
+              <li>The panel at the bottom of the page contains references to other databases. The databases are:
+              <ul>
+				<li>BioGrid</li>
+				<li>DrugBank</li>
+				<li>EMBL</li>
+				<li>HGNC</li>
+				<li>IntAct</li>
+				<li>KEGG</li>
+				<li>OMIM</li>
+				<li>Orphanet</li>
+				<li>PDB</li>
+				<li>Pfam</li>
+				<li>PROSITE</li>
+				<li>Reactome</li>
+				<li>STRING</li>
+				<li>HPA</li>
+              </ul>
+              </li>
+              <img src="/manual/manual11d.png" alt="Entry Page Screenshot" class="manualimg">
+              <li>
+              When the user presses on the green Show More button next to MBPpred, information produced by the algorithm are shown. 
+              These information include:
+              <ul>
+                <li>Domain Family Name (as Shown in <a href="http://pfam.xfam.org" target="_blank">Pfam</a>)</li>
+                <li>Domain Position and Score</li>
+                <li>Domain on the Protein Sequence (red)</li>
+              </ul>
+              <img src="/manual/manual11f.png" alt="Entry Page Screenshot" class="manualimg">
+              </li>
+              <li>Finally, a Cytoscape JS viewer is integrated in the page for vizualization of undirected graphs showing the interactions 
+              between each peripheral membrane protein (dark blue) with other proteins (light blue). 
+              The user can right click on protein nodes and get redirected to UniProt.
+              </li>
+              <img src="/manual/manual11e.png" alt="Entry Page Screenshot" class="manualimg" style="width:33%">
+            </ul>
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">BLAST search</h3>
+            </div>
+            <div class="panel-body">
+            With the BLAST search tool, the user may submit a sequence and search the database for finding homologues. 
+            The input for the BLAST application is the sequence in standard FASTA format.
+            <img src="/manual/manual13.png" alt="BLAST Page Screenshot" class="manualimg">
+            The result page of the BLAST search shows a list of the Blast hits with significant alignment 
+            on the query sequence the user has submitted. The list is in a table format including the 
+            target protein, the Length of the target sequence and the Query and Target 
+            align range. The BLAST results can be compared through the Score and E-value and the Identities and Positives.
+            The result page of the above BLAST search is:
+            <img src="/manual/manual13a.png" alt="BLAST Page Screenshot" class="manualimg">
+            Furthermore, the user can have a more detailed view of each alignment through the Show button at the end of each line:
+            <img src="/manual/manual13b.png" alt="BLAST Page Screenshot" class="manualimg">
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Download Page</h3>
+            </div>
+            <div class="panel-body">
+            User can download all database files in Text, JSON, XML or FASTA format. 
+            <img src="/manual/manual14.png" alt="Download Page Screenshot" class="manualimg" style="width:33%">
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Contact Page</h3>
+            </div>
+            <div class="panel-body">
+            Users can contact us for more information at the emails specified at the contact page. 
+            <img src="/manual/manual15.png" alt="Contact Page Screenshot" class="manualimg" style="width:50%">
+            If a user wants to submit data or corrections that will be reviewed and later will be added to the database
+            a form has been created to provide their name, email address and a message that will be 
+            reviewed by the authors.
+            <img src="/manual/manual15a.png" alt="Contact Page Screenshot" class="manualimg" style="width:75%">
+            Related publications to the current work are also presented.
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Technologies</h3>
+            </div>
+            <div class="panel-body">
+            PerMemDB is based on modern technologies. User should have Javascript enabled on the web browser. 
+            <img src="/manual/manual16.png" alt="Technologies" class="manualimg" style="width:50%">
+            </div>
+          </div>
+      </div>
+    
+  </div>
+</div>
+</div>
+</div>
+<% include partials/footer %>

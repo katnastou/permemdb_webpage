@@ -1,0 +1,39 @@
+<% include partials/header %>
+
+<body>
+    <div class="flex-container">
+    <div class="container">
+          <div class="card mb-3">
+            <div class="card-header">
+              <div class="panel panel-default">
+				  <div class="panel-heading">
+					<i class="fa fa-table"></i> Browse Data By Pathway
+					</div>
+				  </div>
+              </div>
+            <div class="panel panel-info" id="download_panel" style="width:70%;text-align:center">
+              <form action="/permemdb/browse_path" method="POST" >
+				<div class="panel-heading">
+							<h3 class="panel-title">Select Pathway</h3>
+						</div>
+						<div class="panel-body">
+				<select class="form-control" id="sel1" name="selectpicker1">
+					<% for(var i=0; i < results.length; i++) { %>
+					   <option value="<%= results[i].reactome_id %>" ><%= results[i].reactome_id %>: <%= results[i].pathway_description %></option>
+					<% } %>
+				</select>
+				<br>
+				<button type="submit" class="btn btn-success">Browse Data for Specific Pathway</button>
+				</div>
+				</form>
+              </div>
+            </div>
+        </div>
+</div>
+</body>
+<script>
+	$("#sel1").html($("#sel1 option").sort(function (a, b) {
+		return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+	}))
+</script>
+<% include partials/footer %>
